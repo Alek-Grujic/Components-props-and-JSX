@@ -49,14 +49,14 @@ function Menu() {
   );
 }
 
-function Pizza(props) {
+function Pizza({ pizzaObj }) {
   return (
-    <li className="pizza">
-      <img src={props.pizzaObj.photoName} alt="pizza" />
+    <li className={`pizza ${pizzaObj.soldOut ? "sold-out" : ""}`}>
+      <img src={pizzaObj.photoName} alt="pizza" />
       <div>
-        <h3>{props.pizzaObj.name}</h3>
-        <p>{props.pizzaObj.ingredients}</p>
-        <p>{props.pizzaObj.price}</p>
+        <h3>{pizzaObj.name}</h3>
+        <p>{pizzaObj.ingredients}</p>
+        <p>{pizzaObj.soldOut ? "SOLD OUT" : pizzaObj.price}</p>
       </div>
     </li>
   );
@@ -75,9 +75,26 @@ function Footer() {
 
   return (
     <footer className="footer">
-      {" "}
-      {new Date().toLocaleTimeString()}. We are currently open!
+      {isOpen ? (
+        <Order closeHour={closeHour} openHour={openHour} />
+      ) : (
+        <p>
+          We're happy to welcome you between {openHour}:00 and {closeHour}:00.
+        </p>
+      )}
     </footer>
+  );
+}
+
+function Order({ closeHour, openHour }) {
+  return (
+    <div className="order">
+      <p>
+        We're open from {openHour}:00 to {closeHour}:00. come visit us or order
+        online.
+      </p>
+      <button className="btn">Order</button>
+    </div>
   );
 }
 
